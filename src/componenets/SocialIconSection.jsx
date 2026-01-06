@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { FaLinkedinIn } from "react-icons/fa6";
 import { FaGithub } from "react-icons/fa";
 import { BsInstagram } from "react-icons/bs";
@@ -26,22 +26,6 @@ const SocialIconSection = () => {
                     <BsInstagram className={`w-3 md:w-4 lg:w-6 h-3 md:h-4 lg:h-6 ${isDarkMode ? 'text-indigo-400' : 'text-gray-900'} group-hover:text-white transition-colors duration-300`} />
                 </div>
             </div>
-
-            <style jsx>{`
-                @keyframes slideUp {
-                    from {
-                        transform: translateY(40px);
-                        opacity: 0;
-                    }
-                    to {
-                        transform: translateY(0);
-                        opacity: 1;
-                    }
-                }
-                .animate-slide-up {
-                    animation: slideUp 1.4s ease-out forwards;
-                }
-            `}</style>
         </div>
     )
 }

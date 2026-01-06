@@ -20,22 +20,6 @@ const MouseSection = () => {
                     </span>
                 </div>
             </div>
-
-            <style jsx>{`
-                @keyframes slideUp {
-                    from {
-                        transform: translateY(40px);
-                        opacity: 0;
-                    }
-                    to {
-                        transform: translateY(0);
-                        opacity: 1;
-                    }
-                }
-                .animate-slide-up {
-                    animation: slideUp 1.4s ease-out forwards;
-                }
-            `}</style>
         </div>
     )
 }

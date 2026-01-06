@@ -29,7 +29,7 @@ const NameSection = () => {
 
             {/* Buttons with slide-down animation */}
             <div className='animate-slide-down opacity-0' style={{ animationDelay: '800ms' }}>
-                <div className='flex flex-col md:flex-row gap-4 md:gap-4 lg:gap-6'>
+                <div className='flex flex-row gap-4 md:gap-4 lg:gap-6'>
                     <button className={`px-4 py-3 text-sm border-1 border-indigo-400 ${isDarkMode ? 'text-indigo-400' : 'text-gray-800'} ${isDarkMode && `hover:text-gray-900`} font-semibold rounded-lg hover:bg-indigo-400 transition duration-300 shadow-xl`}>
                         Download CV
                     </button>
@@ -38,22 +38,6 @@ const NameSection = () => {
                     </button>
                 </div>
             </div>
-
-            <style jsx>{`
-                @keyframes slideDown {
-                    from {
-                        transform: translateY(-40px);
-                        opacity: 0;
-                    }
-                    to {
-                        transform: translateY(0);
-                        opacity: 1;
-                    }
-                }
-                .animate-slide-down {
-                    animation: slideDown 1.4s ease-out forwards;
-                }
-            `}</style>
         </div>
     )
 }

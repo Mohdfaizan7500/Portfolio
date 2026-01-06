@@ -6,3 +6,32 @@ body{
     font-family: Poppins,sans-serif;
     /* max-width: 50%; */
 }
+
+
+/* Define custom animations */
+@theme {
+  @keyframes slideUp {
+    from {
+      transform: translateY(40px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideDown {
+    from {
+      transform: translateY(-40px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  --animate-slide-up: slideUp 1.4s ease-out forwards;
+  --animate-slide-down: slideDown 1.4s ease-out forwards;
+}
