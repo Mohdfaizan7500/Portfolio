@@ -1,0 +1,61 @@
+import React from 'react'
+import { useTheme } from '../context/ThemeContext';
+
+const NameSection = () => {
+    const { theme, isDarkMode } = useTheme();
+    
+    return (
+        <div className='flex flex-col items-center justify-center text-center min-h-[400px]'>
+            {/* "Hello, I'm" with slide-down animation */}
+            <div className='animate-slide-down opacity-0' style={{ animationDelay: '200ms' }}>
+                <h1 className={`text-lg md:text-3xl lg:text-4xl ${isDarkMode ? 'text-gray-300' : 'text-gray-800'} mb-3`}>
+                    Hello, I'm
+                </h1>
+            </div>
+
+            {/* Name with slide-down animation */}
+            <div className='animate-slide-down opacity-0' style={{ animationDelay: '400ms' }}>
+                <h2 className={`text-2xl md:text-4xl font-bold text-indigo-400 mb-4`}>
+                    Mohd Faizan Khan
+                </h2>
+            </div>
+
+            {/* Job title with slide-down animation */}
+            <div className='animate-slide-down opacity-0' style={{ animationDelay: '600ms' }}>
+                <p className={`text-md md:text-xl ${isDarkMode ? 'text-gray-300' : 'text-gray-900'} max-w-2xl mb-10`}>
+                    React Native Developer
+                </p>
+            </div>
+
+            {/* Buttons with slide-down animation */}
+            <div className='animate-slide-down opacity-0' style={{ animationDelay: '800ms' }}>
+                <div className='flex flex-col md:flex-row gap-4 md:gap-4 lg:gap-6'>
+                    <button className={`px-4 py-3 text-sm border-1 border-indigo-400 ${isDarkMode ? 'text-indigo-400' : 'text-gray-800'} ${isDarkMode && `hover:text-gray-900`} font-semibold rounded-lg hover:bg-indigo-400 transition duration-300 shadow-xl`}>
+                        Download CV
+                    </button>
+                    <button className='px-6 py-3 shadow-2xl text-sm bg-indigo-400 text-white font-semibold rounded-lg hover:bg-indigo-500 transition duration-300'>
+                        About
+                    </button>
+                </div>
+            </div>
+
+            <style jsx>{`
+                @keyframes slideDown {
+                    from {
+                        transform: translateY(-40px);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: translateY(0);
+                        opacity: 1;
+                    }
+                }
+                .animate-slide-down {
+                    animation: slideDown 1.4s ease-out forwards;
+                }
+            `}</style>
+        </div>
+    )
+}
+
+export default NameSection
