@@ -19,7 +19,7 @@ const Skills = () => {
 
     return (
         <div className={`flex min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
-            <div className='container mx-auto px-4 py-16'>
+            <div className='container mx-auto px-5 md:px:20 lg:px-35 py-16'>
                 {/* Header */}
                 <div className='animate-fadeInBack opacity-0 flex flex-col items-center justify-center mb-12 [animation-delay:200ms] animate-fill-forwards'>
                     <h6 className={`text-lg ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>My Abilities</h6>
@@ -28,8 +28,8 @@ const Skills = () => {
 
                 {/* Skills Container with Amber Background */}
                 <div className='animate-fadeInBack opacity-0 [animation-delay:400ms] animate-fill-forwards'>
-                    <div className='border-2 px-10 py-10 rounded-4xl border-gray-300 shadow-2xl'>
-                        <h3 className={`text-xl font-bold mb-8 text-center text-gray-800`}>
+                    <div className={`border-2 px-10  md:px-15 lg:px-20 py-10 rounded-4xl ${isDarkMode ? 'border-gray-700 ':'border-gray-300  '}shadow-2xl`}>
+                        <h3 className={`text-xl font-bold mb-8 text-center ${isDarkMode ?'text-gray-100':'text-gray-800'} `}>
                             My Technical Stack
                         </h3>
 
@@ -37,10 +37,10 @@ const Skills = () => {
                             {skills.map((skill, index) => (
                                 <div
                                     key={index}
-                                    className={`flex items-center gap-3 p-4  rounded-xl transition-all duration-300 hover:scale-105 bg-white/80 hover:bg-white shadow-lg`}
+                                    className={`flex items-center gap-3 p-4  rounded-xl transition-all duration-300 hover:scale-105 ${isDarkMode ? 'bg-gray-800 hover:bg-gray-500':'bg-white/80'} `}
                                 >
                                     <CheckCircle className='w-5 h-5 text-indigo-400' />
-                                    <span className='font-medium text-gray-800'>
+                                    <span className={`font-medium ${isDarkMode ? 'text-gray-200':'text-gray-800'}`}>
                                         {skill}
                                     </span>
                                 </div>

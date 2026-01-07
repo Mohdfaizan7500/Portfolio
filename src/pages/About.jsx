@@ -3,11 +3,12 @@ import { BiAward } from "react-icons/bi";
 import { IoBagAdd } from "react-icons/io5";
 import { BiSupport } from "react-icons/bi";
 import { useTheme } from '../context/ThemeContext';
+import profilepic from '../assets/images/profilepic.png'
 
 const About = () => {
     const { theme, isDarkMode } = useTheme();
 
-    const imgLink = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLe5PABjXc17cjIMOibECLM7ppDwMmiDg6Dw&s';
+    // const imgLink = require('../assets/images/profilepic.png');
 
     const details = [
         {
@@ -41,7 +42,8 @@ const About = () => {
                     {/* Image with fade animation - appears first */}
                     <div className='animate-fadeInBack opacity-0 [animation-delay:400ms] animate-fill-forwards'>
                         <img
-                            src={imgLink}
+                            src={profilepic}
+                            
                             alt="Profile"
                             className='w-80 md:w-100 lg:w-100 h-80 md:h-100 lg:h-100 object-cover rounded-3xl shadow-xl'
                         />

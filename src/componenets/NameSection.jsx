@@ -1,8 +1,19 @@
 import React from 'react'
 import { useTheme } from '../context/ThemeContext';
-
+import resumePDF from '../assets/Faizan-React-Native.pdf';
 const NameSection = () => {
     const { theme, isDarkMode } = useTheme();
+    
+    // Function to handle CV download
+    const handleDownloadCV = () => {
+        // Create a temporary link element
+        const link = document.createElement('a');
+        link.href = resumePDF; // Path to your PDF in public folder
+        link.download = 'Mohd_Faizan_Khan_CV.pdf'; // Custom filename for download
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
     
     return (
         <div className='flex flex-col items-center justify-center text-center min-h-[400px]'>
@@ -30,7 +41,10 @@ const NameSection = () => {
             {/* Buttons with slide-down animation */}
             <div className='animate-slide-down opacity-0' style={{ animationDelay: '800ms' }}>
                 <div className='flex flex-row gap-4 md:gap-4 lg:gap-6'>
-                    <button className={`px-4 py-3 text-sm border-1 border-indigo-400 ${isDarkMode ? 'text-indigo-400' : 'text-gray-800'} ${isDarkMode && `hover:text-gray-900`} font-semibold rounded-lg hover:bg-indigo-400 transition duration-300 shadow-xl`}>
+                    <button 
+                        onClick={handleDownloadCV}
+                        className={`px-4 py-3 text-sm border-1 border-indigo-400 ${isDarkMode ? 'text-indigo-400' : 'text-gray-800'} ${isDarkMode && `hover:text-gray-900`} font-semibold rounded-lg hover:bg-indigo-400 transition duration-300 shadow-xl`}
+                    >
                         Download CV
                     </button>
                     <button className='px-6 py-3 shadow-2xl text-sm bg-indigo-400 text-white font-semibold rounded-lg hover:bg-indigo-500 transition duration-300'>
@@ -42,4 +56,4 @@ const NameSection = () => {
     )
 }
 
-export default NameSection
+export default NameSection;

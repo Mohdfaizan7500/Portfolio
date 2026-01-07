@@ -51,7 +51,7 @@ const ContactMe = () => {
 
     return (
         <div className={`flex min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
-            <div className='container mx-auto px-4 py-16'>
+            <div className='container mx-auto px-4 lg:px-35 md:px-52 py-16'>
                 {/* Header */}
                 <div className='animate-fadeInBack opacity-0 flex flex-col items-center justify-center mb-12 [animation-delay:200ms] animate-fill-forwards'>
                     <h6 className={`text-lg ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>Get in touch</h6>
@@ -167,7 +167,7 @@ const ContactMe = () => {
                                     onChange={handleInputChange}
                                     rows="5"
                                     className={`w-full px-4 py-5 rounded-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all resize-none ${isDarkMode
-                                        ? 'bg-gray-900 text-gray-100 border-2 border-gray-300'
+                                        ? 'bg-gray-900 text-gray-200 border-2 border-gray-300'
                                         : 'bg-white text-gray-800 border-2 border-gray-300'
                                         }`}
                                     placeholder="Write your message here..."
