@@ -41,12 +41,13 @@ const About = () => {
                 <div className='flex flex-col md:flex-row items-center gap-10 px-8 pt-13'>
                     {/* Image with fade animation - appears first */}
                     <div className='animate-fadeInBack opacity-0 [animation-delay:400ms] animate-fill-forwards'>
-                        <img
-                            src={profilepic}
-                            
-                            alt="Profile"
-                            className='w-80 md:w-100 lg:w-100 h-80 md:h-100 lg:h-100 object-cover rounded-3xl shadow-xl'
-                        />
+                        <div className={`w-80 md:w-100 lg:w-100 h-80 md:h-100 lg:h-100 ${isDarkMode ? 'bg-gray-900 ':'bg-white '}rounded-3xl flex items-center justify-center`}>
+                            <img
+                                src={profilepic}
+                                alt="Profile"
+                                className='max-w-full max-h-full object-cover rounded-2xl'
+                            />
+                        </div>
                     </div>
 
                     {/* Details Grid with fade animation - appears second */}
@@ -69,7 +70,7 @@ const About = () => {
                                 ))}
                             </div>
                         </div>
-                        
+
                         {/* Description with fade animation - appears third */}
                         <div className='animate-fadeInBack opacity-0 [animation-delay:800ms] animate-fill-forwards'>
                             <div className='mt-10 px-6 text-center max-w-2xl text-sm'>
@@ -78,7 +79,7 @@ const About = () => {
                                 </p>
                             </div>
                         </div>
-                        
+
                         {/* Button with fade animation - appears last */}
                         <div className='animate-fadeInBack opacity-0 [animation-delay:1000ms] animate-fill-forwards'>
                             <div className='px-5 justify-center flex py-8'>
