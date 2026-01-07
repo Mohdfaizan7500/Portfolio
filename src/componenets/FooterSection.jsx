@@ -3,7 +3,7 @@ import { FaGithub, FaLinkedinIn, FaWhatsapp } from 'react-icons/fa6'
 import { BsInstagram } from 'react-icons/bs';
 
 const FooterSection = () => {
-  
+
   return (
     <div className='w-full flex text-center bg-indigo-400 justify-center py-10 pb-35'>
       <div>
@@ -11,11 +11,11 @@ const FooterSection = () => {
         <div className='animate-fade-up opacity-0' style={{ animationDelay: '200ms' }}>
           <h3 className='text-3xl font-bold text-gray-900 pb-10'>Mohd Faizan Khan</h3>
         </div>
-        
+
         {/* Navigation with staggered animation */}
         <ul className='flex flex-row justify-center gap-5'>
           {['Home', 'About', 'Skill', 'Work', 'Contact'].map((item, index) => (
-            <li 
+            <li
               key={item}
               className='animate-fade-up opacity-0 text-xl text-gray-900'
               style={{ animationDelay: `${300 + (index * 100)}ms` }}
@@ -24,7 +24,7 @@ const FooterSection = () => {
             </li>
           ))}
         </ul>
-        
+
         {/* Social icons with staggered animation */}
         <div className='flex flex-row gap-5 mt-10 justify-center'>
           {[
@@ -33,7 +33,7 @@ const FooterSection = () => {
             { Icon: BsInstagram, delay: 1000 },
             { Icon: FaWhatsapp, delay: 1100 }
           ].map(({ Icon, delay }) => (
-            <div 
+            <div
               key={delay}
               className='animate-fade-up opacity-0 p-3 bg-gray-900 rounded-md cursor-pointer hover:scale-110 transition-transform duration-300'
               style={{ animationDelay: `${delay}ms` }}
@@ -42,7 +42,7 @@ const FooterSection = () => {
             </div>
           ))}
         </div>
-        
+
         {/* Copyright with animation */}
         <div className='animate-fade-up opacity-0' style={{ animationDelay: '1200ms' }}>
           <h5 className='text-gray-800 text-md mt-20'>© 2023 SSPK@. All rights reserved.</h5>

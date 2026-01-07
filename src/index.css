@@ -105,3 +105,23 @@ body {
   background-color: #818cf8; /* indigo-400 */
   color: white;
 }
+
+/* In your global CSS file */
+@keyframes fadeInBack {
+  0% {
+    opacity: 0;
+    transform: translateZ(-100px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateZ(0) scale(1);
+  }
+}
+
+.animate-fadeInBack {
+  animation: fadeInBack 0.8s ease-out;
+}
+
+.animate-fill-forwards {
+  animation-fill-mode: forwards;
+}
