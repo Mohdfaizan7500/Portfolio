@@ -15,26 +15,20 @@ const ContactMe = () => {
     });
 
     const contactDetails = [
-        // {
-        //     icon: <FaPhoneAlt className="w-5 h-5 text-indigo-400" />,
-        //     platform: "Phone",
-        //     username: "+123 456 7890",
-        //     action: "Call me"
-        // },
         {
-            icon: <HiOutlineMail className="w-7 h-7 text-gray-200" />,
+            icon: <HiOutlineMail className={`w-7 h-7 ${isDarkMode ? 'text-gray-200' : 'text-gray-900'} `} />,
             platform: "Email",
             username: "faizanpatha34@gmail.com",
             action: "Mail me"
         },
         {
-            icon: <FaWhatsapp className="w-7 h-7 text-gray-200" />,
+            icon: <FaWhatsapp className={`w-7 h-7 ${isDarkMode ? 'text-gray-200' : 'text-gray-900'} `} />,
             platform: "WhatsApp",
             username: "+91 7078254220",
             action: "Text me"
         },
         {
-            icon: <FaLinkedinIn className="w-7 h-7 text-gray-200" />,
+            icon: <FaLinkedinIn className={`w-7 h-7 ${isDarkMode ? 'text-gray-200' : 'text-gray-900'} `} />,
             platform: "LinkedIn",
             username: "mohd-faizan-khan-924211244",
             action: "Write me"
@@ -66,8 +60,8 @@ const ContactMe = () => {
 
                 <div className='flex flex-col lg:flex-row gap-12'>
                     {/* Contact Details - Left Side */}
-                    <div className='animate-fadeInBack opacity-0 lg:w-1/2 [animation-delay:400ms] animate-fill-forwards'>
-                        <div className={` bg-gray-900`}>
+                    <div className='animate-slideInFromLeft opacity-0 lg:w-1/2 [animation-delay:400ms] animate-fill-forwards'>
+                        <div className={`${isDarkMode ? 'bg-gray-900' : 'bg-white'} `}>
                             <div className='flex items-center justify-center gap-3 mb-8'>
                                 <BsChatDots className='w-6 h-6 text-indigo-400' />
                                 <h3 className={`text-xl font-bold ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
@@ -79,11 +73,11 @@ const ContactMe = () => {
                                 {contactDetails.map((detail, index) => (
                                     <div
                                         key={index}
-                                        className={`p-7 rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] ${isDarkMode ? 'bg-gray-800 hover:bg-gray-600' : 'bg-white hover:bg-gray-50'
+                                        className={`p-7 rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] ${isDarkMode ? 'bg-gray-800 hover:bg-gray-600' : 'bg-gray-100 hover:bg-gray-50'
                                             }`}
                                     >
                                         <div className='flex items-center justify-center text-center gap-4'>
-                                            
+
                                             <div>
                                                 <div className='flex justify-center'>
                                                     {detail.icon}
@@ -110,7 +104,7 @@ const ContactMe = () => {
                     </div>
 
                     {/* Contact Form - Right Side */}
-                    <div className='animate-fadeInBack px-5 opacity-0 lg:w-1/2 [animation-delay:600ms] animate-fill-forwards'>
+                    <div className='animate-slideInFromRight opacity-0 lg:w-1/2 [animation-delay:600ms] animate-fill-forwards'>
                         <div className='flex justify-center mb-8 '>
                             <h3 className={`text-xl font-bold ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
                                 Write Me your Message

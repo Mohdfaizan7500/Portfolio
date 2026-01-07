@@ -125,3 +125,37 @@ body {
 .animate-fill-forwards {
   animation-fill-mode: forwards;
 }
+/* In your global CSS file */
+@keyframes slideInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slideInFromLeft {
+  animation: slideInFromLeft 0.8s ease-out;
+}
+
+.animate-slideInFromRight {
+  animation: slideInFromRight 0.8s ease-out;
+}
+
+.animate-fill-forwards {
+  animation-fill-mode: forwards;
+}
