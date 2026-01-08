@@ -8,6 +8,7 @@ import fitnessTracker from '../assets/images/notarymate.png';
 import portfolioWeb from '../assets/images/lumtechweb.png';
 import chatApp from '../assets/images/todolist.jpg';
 import dashboardUI from '../assets/images/toptenweb.png';
+import lernlyst from '../assets/images/lernlyst.png';
 
 const Portfolio = () => {
     const { isDarkMode } = useTheme();
@@ -29,7 +30,7 @@ const Portfolio = () => {
         },
         {
             id: 2,
-            title: 'E-commerce Website',
+            title: 'Notery Mate Web',
             category: 'Web',
             link: '#',
             image: ecommerceWeb
@@ -43,24 +44,31 @@ const Portfolio = () => {
         },
         {
             id: 4,
-            title: 'Portfolio Website',
+            title: 'Lumetech Website',
             category: 'Web',
             link: '#',
             image: portfolioWeb
         },
         {
             id: 5,
-            title: 'Chat Application',
+            title: 'Todo List App',
             category: 'App',
             link: '#',
             image: chatApp
         },
         {
             id: 6,
-            title: 'Dashboard UI',
+            title: 'TopTenBazar website',
             category: 'Web',
             link: '#',
             image: dashboardUI
+        },
+         {
+            id: 7,
+            title: 'Learnlyst',
+            category: 'App',
+            link: '#',
+            image: lernlyst
         },
     ];
 
@@ -69,8 +77,9 @@ const Portfolio = () => {
         : portfolioItems.filter(item => item.category === activeTab);
 
     return (
+        <div id="work" className="scroll-mt-20"> 
         <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`} id="portfolio">
-            <div className='container mx-auto px-4 lg:px-20 py-16'>
+            <div className='container mx-auto px-8 lg:px-40 py-16'>
                 {/* Header */}
                 <div className='text-center mb-12'>
                     <h6 className={`text-lg ${isDarkMode ? 'text-gray-200' : 'text-gray-700'} mb-2`}>
@@ -149,6 +158,7 @@ const Portfolio = () => {
                     </div>
                 )}
             </div>
+        </div>
         </div>
     )
 }

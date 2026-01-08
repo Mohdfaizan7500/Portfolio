@@ -18,6 +18,7 @@ const Skills = () => {
     ];
 
     return (
+        <div id="skills" className="scroll-mt-20">
         <div className={`flex min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
             <div className='container mx-auto px-5 md:px:20 lg:px-35 py-16'>
                 {/* Header */}
@@ -56,6 +57,7 @@ const Skills = () => {
                     </p>
                 </div>
             </div>
+        </div>
         </div>
     )
 }

@@ -159,3 +159,43 @@ body {
 .animate-fill-forwards {
   animation-fill-mode: forwards;
 }
+
+/* Light theme scrollbar */
+:root {
+  --scrollbar-track: #fff;
+  --scrollbar-thumb: #7f9cf5;
+  --scrollbar-thumb-hover: #555;
+}
+
+/* Dark theme scrollbar */
+.dark {
+  --scrollbar-track: #111827;
+  --scrollbar-thumb: #7f9cf5;
+  --scrollbar-thumb-hover: #718096;
+}
+
+/* WebKit browsers */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}

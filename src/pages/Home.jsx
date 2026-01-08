@@ -1,17 +1,18 @@
 import React from 'react'
-import HeroSection from './HeroSection'
-import About from './About'
-import Contectme from './Contectme'
-import Skilles from './Skilles'
-import Portfolio from './Portfolio'
+import HeroSection from '../pages/HeroSection'
+import About from '../pages/About'
+import Contectme from '../pages/Contectme'
+import Skilles from '../pages/Skilles'
+import Portfolio from '../pages/Portfolio'
+
 const Home = () => {
   return (
     <>
       <HeroSection />
       <About />
-      <Skilles/>
-      <Portfolio/>
-      <Contectme/>
+      <Skilles />
+      <Portfolio />
+      <Contectme />
     </>
   )
 }

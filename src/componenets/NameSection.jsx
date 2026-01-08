@@ -1,18 +1,30 @@
 import React from 'react'
 import { useTheme } from '../context/ThemeContext';
 import resumePDF from '../assets/Faizan-React-Native.pdf';
+
 const NameSection = () => {
     const { theme, isDarkMode } = useTheme();
     
     // Function to handle CV download
     const handleDownloadCV = () => {
-        // Create a temporary link element
         const link = document.createElement('a');
-        link.href = resumePDF; // Path to your PDF in public folder
-        link.download = 'Mohd_Faizan_Khan_CV.pdf'; // Custom filename for download
+        link.href = resumePDF;
+        link.download = 'Mohd_Faizan_Khan_CV.pdf';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+    };
+    
+    // Function to scroll to about section
+   const handleAboutClick = () => {
+        const aboutSection = document.getElementById('about'); // Make sure this matches About.jsx ID
+        if (aboutSection) {
+            aboutSection.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+            window.history.pushState({}, '', '#about');
+        }
     };
     
     return (
@@ -47,7 +59,10 @@ const NameSection = () => {
                     >
                         Download CV
                     </button>
-                    <button className='px-6 py-3 shadow-2xl text-sm bg-indigo-400 text-white font-semibold rounded-lg hover:bg-indigo-500 transition duration-300'>
+                    <button 
+                        onClick={handleAboutClick}
+                        className='px-6 py-3 shadow-2xl text-sm bg-indigo-400 text-white font-semibold rounded-lg hover:bg-indigo-500 transition duration-300'
+                    >
                         About
                     </button>
                 </div>

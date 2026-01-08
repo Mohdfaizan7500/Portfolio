@@ -5,27 +5,27 @@ import { BsInstagram } from 'react-icons/bs'
 const FooterSection = () => {
   // Social media links
   const socialLinks = [
-    { 
-      Icon: FaLinkedinIn, 
-      delay: 800, 
+    {
+      Icon: FaLinkedinIn,
+      delay: 800,
       url: 'https://www.linkedin.com/in/mohd-faizan-khan-924211244/',
       title: 'LinkedIn'
     },
-    { 
-      Icon: FaGithub, 
-      delay: 900, 
+    {
+      Icon: FaGithub,
+      delay: 900,
       url: 'https://github.com/Mohdfaizan7500',
       title: 'GitHub'
     },
-    { 
-      Icon: BsInstagram, 
-      delay: 1000, 
+    {
+      Icon: BsInstagram,
+      delay: 1000,
       url: 'hhttps://www.instagram.com/pathan_sahab__91/',
       title: 'Instagram'
     },
-    { 
-      Icon: FaWhatsapp, 
-      delay: 1100, 
+    {
+      Icon: FaWhatsapp,
+      delay: 1100,
       url: 'https://wa.me/+917078254220',
       title: 'WhatsApp'
     }
@@ -33,13 +33,12 @@ const FooterSection = () => {
 
   // Navigation links (you can add actual hrefs to these too)
   const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Skill', href: '#skills' },
-    { name: 'Work', href: '#work' },
-    { name: 'Contact', href: '#contact' }
+    { name: 'Home', href: '#home' },       // Your HeroSection should have id="home"
+    { name: 'About', href: '#about' },     // About.jsx should have id="about"
+    { name: 'Skill', href: '#skills' },    // Skilles.jsx should have id="skills"
+    { name: 'Work', href: '#work' },       // Portfolio.jsx should have id="work"
+    { name: 'Contact', href: '#contact' }  // ContactMe.jsx should have id="contact"
   ]
-
   const handleSocialClick = (url, platform) => {
     window.open(url, '_blank', 'noopener,noreferrer')
   }
@@ -47,12 +46,20 @@ const FooterSection = () => {
   const handleNavClick = (href) => {
     // For smooth scrolling to sections if they exist on the same page
     if (href.startsWith('#')) {
-      const element = document.querySelector(href)
+      const element = document.querySelector(href);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' })
+        // Calculate offset for fixed header (adjust 80px based on your header height)
+        const headerHeight = 80; // Adjust this based on your header height
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
       }
     }
-  }
+  };
 
   return (
     <div className='w-full flex text-center bg-indigo-400 justify-center py-10 pb-35'>
