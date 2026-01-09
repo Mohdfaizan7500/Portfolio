@@ -7,7 +7,7 @@ const HeroSection = () => {
   const { theme, isDarkMode, } = useTheme();
   console.log("")
   return (
-    <section id="home" className={` ${isDarkMode ? 'bg-gray-900' : 'bg-white'} md:pt-10 lg:pt-18 lg:px-40`}>
+    <section id="home" className={` ${isDarkMode ? 'bg-gray-900' : 'bg-white'} md:pt-10 lg:pt-18 lg:px-70`}>
       <div className='container mx-auto px-4 flex flex-row justify-between items-center'>
         <SocialIconSection />
         <NameSection />

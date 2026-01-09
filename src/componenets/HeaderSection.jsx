@@ -33,7 +33,7 @@ const HeaderSection = () => {
         <div className={`
             fixed top-0 left-0 right-0 z-50
             flex items-center justify-between w-full 
-            px-7 sm:px-9 md:px-15 lg:px-20 xl:px-30 2xl:px-40 
+            px-7 sm:px-9 md:px-20 lg:px-30 xl:px-30 2xl:px-40 
             py-4 xl:py-6 
             transition-all duration-300
             ${isDarkMode
@@ -50,7 +50,7 @@ const HeaderSection = () => {
             
         `}>
             <div className='container mx-auto flex justify-between'>
-                <div className="text-lg lg:text-2xl font-semibold text-cyan-500 dark:text-indigo-400">
+                <div className="text-lg lg:text-2xl font-semibold text-indigo-400">
                     Mohd Faizan Khan
                 </div>
 

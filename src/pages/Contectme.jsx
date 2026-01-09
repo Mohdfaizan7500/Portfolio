@@ -1,17 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useTheme } from '../context/ThemeContext'
 import { HiOutlineMail } from "react-icons/hi";
 import { BsChatDots } from "react-icons/bs";
 import { FaLinkedinIn, FaWhatsapp } from 'react-icons/fa6';
-import { PlayIcon } from 'lucide-react';
+import { PlayIcon, Loader2, MailOpen } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 const ContactMe = () => {
     const { isDarkMode } = useTheme();
+    const formRef = useRef();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         message: ''
     });
+    const [isLoading, setIsLoading] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
+    const [error, setError] = useState('');
 
     const contactDetails = [
         {
@@ -42,26 +47,66 @@ const ContactMe = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+        
+        // Map form field names to state property names
+        const stateFieldName = name === 'user_name' ? 'name' : 
+                               name === 'user_email' ? 'email' : 
+                               name === 'message' ? 'message' : name;
+        
         setFormData(prev => ({
             ...prev,
-            [name]: value
+            [stateFieldName]: value
         }));
+        
+        // Reset success/error states when user starts typing again
+        if (isSuccess || error) {
+            setIsSuccess(false);
+            setError('');
+        }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission here
-        console.log('Form submitted:', formData);
-        // Reset form after submission
-        setFormData({
-            name: '',
-            email: '',
-            message: ''
-        });
+        setIsLoading(true);
+        setError('');
+
+        try {
+            const serviceID = 'service_zfhwpwe';
+            const templateID = 'template_w3nir4i';
+            const publicKey = 'MW7cCi7GZ9Wbyjkxm';
+
+            const result = await emailjs.sendForm(
+                serviceID,
+                templateID,
+                formRef.current,
+                publicKey
+            );
+
+            if (result.status === 200 || result.text === 'OK') {
+                setIsSuccess(true);
+                setFormData({
+                    name: '',
+                    email: '',
+                    message: ''
+                });
+
+                // Show alert message
+                alert(`✅ Message sent successfully!\n\nThank you ${formData.name}! Your message has been delivered.\n\nI'll get back to you within 24 hours.`);
+                
+                // Reset success state after alert
+                setIsSuccess(false);
+            }
+        } catch (err) {
+            console.error('Email sending failed:', err);
+            // Show error alert
+            alert(`❌ Failed to send message.\n\nPlease try again later or contact me directly at faizanpatha34@gmail.com`);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
-        <div id="contact" className="scroll-mt-10"> 
+        <div id="contact" className="scroll-mt-10">
             <div className={`flex min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
                 <div className='container mx-auto px-4 lg:px-35 md:px-52 py-16'>
                     {/* Header */}
@@ -88,11 +133,10 @@ const ContactMe = () => {
                                             href={detail.link}
                                             target={detail.type === 'email' ? '_self' : '_blank'}
                                             rel={detail.type !== 'email' ? 'noopener noreferrer' : ''}
-                                            className={`block p-7 rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-indigo-400 ${
-                                                isDarkMode 
-                                                    ? 'bg-gray-800 hover:bg-gray-700' 
+                                            className={`block p-7 rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-indigo-400 ${isDarkMode
+                                                    ? 'bg-gray-800 hover:bg-gray-700'
                                                     : 'bg-gray-100 hover:bg-gray-50'
-                                            }`}
+                                                }`}
                                         >
                                             <div className='flex items-center justify-center text-center gap-4'>
                                                 <div>
@@ -128,7 +172,21 @@ const ContactMe = () => {
                                 </h3>
                             </div>
 
-                            <form onSubmit={handleSubmit} className='space-y-8'>
+                            {/* Simple inline message indicators (optional) */}
+                            {isLoading && (
+                                <div className="mb-4 p-3 bg-blue-100 text-blue-700 rounded-lg text-center">
+                                    <Loader2 className="w-4 h-4 animate-spin inline mr-2" />
+                                    Sending your message...
+                                </div>
+                            )}
+                            
+                            {error && (
+                                <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-center">
+                                    ❌ {error}
+                                </div>
+                            )}
+
+                            <form ref={formRef} onSubmit={handleSubmit} className='space-y-8'>
                                 {/* Name Input */}
                                 <div className='relative'>
                                     <label
@@ -138,7 +196,7 @@ const ContactMe = () => {
                                     </label>
                                     <input
                                         type="text"
-                                        name="name"
+                                        name="user_name"
                                         value={formData.name}
                                         onChange={handleInputChange}
                                         className={`w-full px-4 py-7 rounded-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all ${isDarkMode
@@ -147,6 +205,7 @@ const ContactMe = () => {
                                             }`}
                                         placeholder="Enter your name"
                                         required
+                                        disabled={isLoading}
                                     />
                                 </div>
 
@@ -159,7 +218,7 @@ const ContactMe = () => {
                                     </label>
                                     <input
                                         type="email"
-                                        name="email"
+                                        name="user_email"
                                         value={formData.email}
                                         onChange={handleInputChange}
                                         className={`w-full px-4 py-5 rounded-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all ${isDarkMode
@@ -168,6 +227,7 @@ const ContactMe = () => {
                                             }`}
                                         placeholder="Enter your email"
                                         required
+                                        disabled={isLoading}
                                     />
                                 </div>
 
@@ -189,16 +249,36 @@ const ContactMe = () => {
                                             }`}
                                         placeholder="Write your message here..."
                                         required
+                                        disabled={isLoading}
                                     />
                                 </div>
+
+                                {/* Hidden field for recipient email */}
+                                <input type="hidden" name="to_email" value="mohdfaizankhan7500F@gmail.com" />
 
                                 {/* Send Button */}
                                 <button
                                     type="submit"
-                                    className="w-full bg-gradient-to-r from-indigo-400 to-indigo-600 hover:from-indigo-500 hover:to-indigo-700 text-white font-bold py-4 px-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] text-lg"
+                                    disabled={isLoading}
+                                    className="w-full bg-gradient-to-r from-indigo-400 to-indigo-600 hover:from-indigo-500 hover:to-indigo-700 text-white font-bold py-4 px-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-95 text-lg disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3"
                                 >
-                                    Send Message
+                                    {isLoading ? (
+                                        <>
+                                            <Loader2 className="w-5 h-5 animate-spin" />
+                                            Sending your message...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <MailOpen className="w-5 h-5" />
+                                            Send Message
+                                        </>
+                                    )}
                                 </button>
+
+                                {/* Privacy Note */}
+                                <p className="text-xs text-center text-gray-500 dark:text-gray-400 mt-4">
+                                    Your information is secure. I'll only use it to respond to your message.
+                                </p>
                             </form>
                         </div>
                     </div>
@@ -208,4 +288,4 @@ const ContactMe = () => {
     )
 }
 
-export default ContactMe
+export default ContactMe;
