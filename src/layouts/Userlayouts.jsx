@@ -7,11 +7,10 @@ import BottomNav from '../componenets/BottomNav'
 const Userlayouts = () => {
     return (
         <>
-            {/* <div>gytygy</div> */}
             <HeaderSection />
             <Outlet />
             <FooterSection />
-            <BottomNav/>
+            <BottomNav />
         </>
     )
 }

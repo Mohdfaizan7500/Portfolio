@@ -144,7 +144,7 @@ const ContactMe = () => {
                                                         {detail.icon}
                                                     </div>
 
-                                                    <h4 className={`font-semibold mt-3 ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
+                                                    <h4 className={`font-semibold mt-3 ${isDarkMode ? 'text-gray-100' : 'text-gray-890'}`}>
                                                         {detail.platform}
                                                     </h4>
                                                     <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
@@ -167,7 +167,7 @@ const ContactMe = () => {
                         {/* Contact Form - Right Side */}
                         <div className='animate-slideInFromRight opacity-0 lg:w-1/2 [animation-delay:600ms] animate-fill-forwards'>
                             <div className='flex justify-center mb-8'>
-                                <h3 className={`text-xl font-bold ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
+                                <h3 className={`text-xl font-bold ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
                                     Send me a message
                                 </h3>
                             </div>
@@ -200,7 +200,7 @@ const ContactMe = () => {
                                         value={formData.name}
                                         onChange={handleInputChange}
                                         className={`w-full px-4 py-7 rounded-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all ${isDarkMode
-                                            ? 'bg-gray-800 text-gray-100 border-2 border-gray-700'
+                                            ? 'bg-gray-900 text-gray-100 border-2 border-gray-700'
                                             : 'bg-white text-gray-800 border-2 border-gray-300'
                                             }`}
                                         placeholder="Enter your name"
@@ -222,7 +222,7 @@ const ContactMe = () => {
                                         value={formData.email}
                                         onChange={handleInputChange}
                                         className={`w-full px-4 py-5 rounded-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all ${isDarkMode
-                                            ? 'bg-gray-800 text-gray-100 border-2 border-gray-700'
+                                            ? 'bg-gray-900 text-gray-100 border-2 border-gray-700'
                                             : 'bg-white text-gray-800 border-2 border-gray-300'
                                             }`}
                                         placeholder="Enter your email"
@@ -244,7 +244,7 @@ const ContactMe = () => {
                                         onChange={handleInputChange}
                                         rows="5"
                                         className={`w-full px-4 py-5 rounded-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all resize-none ${isDarkMode
-                                            ? 'bg-gray-800 text-gray-200 border-2 border-gray-700'
+                                            ? 'bg-gray-900 text-gray-200 border-2 border-gray-700'
                                             : 'bg-white text-gray-800 border-2 border-gray-300'
                                             }`}
                                         placeholder="Write your message here..."

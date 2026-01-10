@@ -43,12 +43,13 @@ const BottomNav = () => {
 
     return (
         <>
-            <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2  w-[380px] ">
+            {/* Bottom Navigation - Fixed overlay, doesn't affect layout */}
+            <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2  w-[380px]">
                 {/* Container */}
                 <div className={`rounded-full px-6 py-4 backdrop-blur-3xl shadow-lg ${
                     isDarkMode 
-                        ? 'bg-gray-900/15 border border-gray-700/20' 
-                        : 'bg-white/15 border border-gray-300/20'
+                        ? 'bg-gray-900/10 border border-gray-700/30' 
+                        : 'bg-white/10 border border-gray-300/30'
                 }`}>
                     <div className="flex justify-between items-center">
                         {navItems.map((item) => {
@@ -59,7 +60,8 @@ const BottomNav = () => {
                                 <button
                                     key={item.id}
                                     onClick={() => handleNavClick(item.href, item.key)}
-                                    className="relative p-2 group"
+                                    className="relative p-2 group focus:outline-none"
+                                    aria-label={item.label}
                                 >
                                     {/* Gradient background with smooth transition */}
                                     <div className={`absolute inset-0 rounded-full transition-all duration-300 ease-out ${
@@ -78,13 +80,23 @@ const BottomNav = () => {
                                                     : 'text-gray-600 group-hover:text-indigo-500 group-hover:scale-105'
                                         }`} />
                                     </div>
+                                    
+                                    {/* Tooltip for better UX */}
+                                    <div className={`absolute -top-10 left-1/2 transform -translate-x-1/2 px-2 py-1 rounded-md text-xs font-medium whitespace-nowrap transition-all duration-200 opacity-0 group-hover:opacity-100 pointer-events-none ${
+                                        isDarkMode 
+                                            ? 'bg-gray-800 text-gray-200' 
+                                            : 'bg-gray-900 text-white'
+                                    }`}>
+                                        {item.label}
+                                    </div>
                                 </button>
                             )
                         })}
                     </div>
                 </div>
             </div>
-            <div className="h-20 md:h-0"></div>
+            
+            {/* REMOVED: Don't add extra spacing here */}
         </>
     )
 }
