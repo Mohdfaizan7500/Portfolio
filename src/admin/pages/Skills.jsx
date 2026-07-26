@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useData } from '../../context/DataContext'
-import { Plus, Trash2 } from 'lucide-react'
+import { Plus, Trash2, Loader2 } from 'lucide-react'
 
 export default function SkillsPage() {
-  const { data, updateNested } = useData()
+  const { data, updateNested, saveData, saving } = useData()
   const [saved, setSaved] = useState(false)
   const [newSkill, setNewSkill] = useState('')
   const skills = data.skills
@@ -22,8 +22,9 @@ export default function SkillsPage() {
     handleChange('items', skills.items.filter((_, i) => i !== index))
   }
 
-  const handleSave = () => {
-    setSaved(true)
+  const handleSave = async () => {
+    const result = await saveData()
+    setSaved(result.success)
     setTimeout(() => setSaved(false), 2000)
   }
 
@@ -67,8 +68,9 @@ export default function SkillsPage() {
         </div>
 
         <div className="flex justify-end">
-          <button onClick={handleSave} className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
-            {saved ? 'Saved!' : 'Save Changes'}
+          <button onClick={handleSave} disabled={saving} className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2">
+            {saving ? <Loader2 className="animate-spin" size={16} /> : null}
+            {saving ? 'Saving...' : saved ? 'Saved!' : 'Save Changes'}
           </button>
         </div>
       </div>

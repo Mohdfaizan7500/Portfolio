@@ -1,9 +1,13 @@
 import { useState } from 'react'
 import { useData } from '../../context/DataContext'
-import { Plus, Trash2, Upload } from 'lucide-react'
+import { useAdminAuth } from '../../context/AdminAuthContext'
+import { Plus, Trash2, Upload, Loader2 } from 'lucide-react'
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api'
 
 export default function DemoImagesPage() {
-  const { data, updateData } = useData()
+  const { data, updateData, saveData, saving } = useData()
+  const { getToken } = useAdminAuth()
   const [saved, setSaved] = useState(false)
   const [selectedSet, setSelectedSet] = useState('notary')
   const [newLabel, setNewLabel] = useState('')
@@ -18,29 +22,54 @@ export default function DemoImagesPage() {
     })
   }
 
-  const addImages = (key, files) => {
-    const loadImages = () => {
-      const readers = Array.from(files).map(file => {
-        return new Promise((resolve) => {
-          const reader = new FileReader()
-          reader.onload = (e) => resolve(e.target.result)
-          reader.readAsDataURL(file)
-        })
-      })
-      Promise.all(readers).then((results) => {
-        updateData('demoImageSets', {
-          ...sets,
-          [key]: { ...sets[key], images: [...sets[key].images, ...results] }
-        })
-      })
+  const addImages = async (key, files) => {
+    if (!files.length) return
+    const token = getToken()
+    if (!token) return
+
+    const formData = new FormData()
+    formData.append('setKey', key)
+    for (const file of files) {
+      formData.append('images', file)
     }
-    loadImages()
+
+    try {
+      const res = await fetch(`${API_URL}/demo-images/upload`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      })
+      if (!res.ok) throw new Error('Upload failed')
+      const result = await res.json()
+      const newImages = result.images.map(img => img.image_data)
+      updateData('demoImageSets', {
+        ...sets,
+        [key]: { ...sets[key], images: [...(sets[key]?.images || []), ...newImages] }
+      })
+    } catch (e) {
+      console.error('Upload error:', e)
+    }
   }
 
-  const removeImage = (key, index) => {
+  const removeImage = async (key, index) => {
+    const token = getToken()
+    if (!token) return
+
+    const imageData = currentSet.images[index]
+    try {
+      const res = await fetch(`${API_URL}/demo-images/set/${key}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (!res.ok) throw new Error('Delete failed')
+    } catch (e) {
+      console.error('Delete error:', e)
+    }
+
+    const updated = sets[key].images.filter((_, i) => i !== index)
     updateData('demoImageSets', {
       ...sets,
-      [key]: { ...sets[key], images: sets[key].images.filter((_, i) => i !== index) }
+      [key]: { ...sets[key], images: updated }
     })
   }
 
@@ -62,8 +91,9 @@ export default function DemoImagesPage() {
     setSelectedSet(Object.keys(rest)[0])
   }
 
-  const handleSave = () => {
-    setSaved(true)
+  const handleSave = async () => {
+    const result = await saveData()
+    setSaved(result.success)
     setTimeout(() => setSaved(false), 2000)
   }
 
@@ -124,8 +154,9 @@ export default function DemoImagesPage() {
         </div>
 
         <div className="flex justify-end pt-2">
-          <button onClick={handleSave} className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
-            {saved ? 'Saved!' : 'Save Changes'}
+          <button onClick={handleSave} disabled={saving} className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2">
+            {saving ? <Loader2 className="animate-spin" size={16} /> : null}
+            {saving ? 'Saving...' : saved ? 'Saved!' : 'Save Changes'}
           </button>
         </div>
       </div>

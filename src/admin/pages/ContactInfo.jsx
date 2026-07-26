@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { useData } from '../../context/DataContext'
+import { Loader2 } from 'lucide-react'
 
 export default function ContactInfoPage() {
-  const { data, updateNested } = useData()
+  const { data, updateNested, saveData, saving } = useData()
   const [saved, setSaved] = useState(false)
   const ci = data.contactInfo
   const ej = data.emailJS
@@ -15,8 +16,9 @@ export default function ContactInfoPage() {
     updateNested('emailJS', key, value)
   }
 
-  const handleSave = () => {
-    setSaved(true)
+  const handleSave = async () => {
+    const result = await saveData()
+    setSaved(result.success)
     setTimeout(() => setSaved(false), 2000)
   }
 
@@ -114,8 +116,9 @@ export default function ContactInfoPage() {
         </div>
 
         <div className="flex justify-end">
-          <button onClick={handleSave} className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
-            {saved ? 'Saved!' : 'Save Changes'}
+          <button onClick={handleSave} disabled={saving} className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2">
+            {saving ? <Loader2 className="animate-spin" size={16} /> : null}
+            {saving ? 'Saving...' : saved ? 'Saved!' : 'Save Changes'}
           </button>
         </div>
       </div>

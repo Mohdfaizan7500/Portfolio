@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { useData } from '../../context/DataContext'
-import { Plus, Trash2, GripVertical } from 'lucide-react'
+import { Plus, Trash2, GripVertical, Loader2 } from 'lucide-react'
 
 const platformOptions = ['linkedin', 'github', 'instagram', 'whatsapp', 'twitter', 'youtube', 'facebook']
 
 export default function SocialLinksPage() {
-  const { data, updateData } = useData()
+  const { data, updateData, saveData, saving } = useData()
   const [saved, setSaved] = useState(false)
 
   const links = data.socialLinks
@@ -26,8 +26,9 @@ export default function SocialLinksPage() {
     handleChange(index, 'active', !links[index].active)
   }
 
-  const handleSave = () => {
-    setSaved(true)
+  const handleSave = async () => {
+    const result = await saveData()
+    setSaved(result.success)
     setTimeout(() => setSaved(false), 2000)
   }
 
@@ -66,8 +67,9 @@ export default function SocialLinksPage() {
           <button onClick={addLink} className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm">
             <Plus size={16} /> Add Link
           </button>
-          <button onClick={handleSave} className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
-            {saved ? 'Saved!' : 'Save Changes'}
+          <button onClick={handleSave} disabled={saving} className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2">
+            {saving ? <Loader2 className="animate-spin" size={16} /> : null}
+            {saving ? 'Saving...' : saved ? 'Saved!' : 'Save Changes'}
           </button>
         </div>
       </div>

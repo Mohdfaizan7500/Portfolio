@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { useData } from '../../context/DataContext'
+import { Loader2 } from 'lucide-react'
 
 export default function PersonalInfo() {
-  const { data, updateNested } = useData()
+  const { data, updateNested, saveData, saving } = useData()
   const [saved, setSaved] = useState(false)
   const pi = data.personalInfo
 
@@ -10,8 +11,9 @@ export default function PersonalInfo() {
     updateNested('personalInfo', key, value)
   }
 
-  const handleSave = () => {
-    setSaved(true)
+  const handleSave = async () => {
+    const result = await saveData()
+    setSaved(result.success)
     setTimeout(() => setSaved(false), 2000)
   }
 
@@ -61,8 +63,9 @@ export default function PersonalInfo() {
             <textarea value={pi.bio} onChange={e => handleChange('bio', e.target.value)} rows={4} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none" />
           </div>
         </div>
-        <button onClick={handleSave} className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
-          {saved ? 'Saved!' : 'Save Changes'}
+        <button onClick={handleSave} disabled={saving} className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2">
+          {saving ? <Loader2 className="animate-spin" size={16} /> : null}
+          {saving ? 'Saving...' : saved ? 'Saved!' : 'Save Changes'}
         </button>
       </div>
     </div>

@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useData } from '../../context/DataContext'
-import { Plus, Trash2, Edit2, X, Check } from 'lucide-react'
+import { Plus, Trash2, Edit2, X, Check, Loader2 } from 'lucide-react'
 
 export default function PortfolioItemsPage() {
-  const { data, updateData } = useData()
+  const { data, updateData, saveData, saving } = useData()
   const [saved, setSaved] = useState(false)
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState(null)
@@ -125,6 +125,12 @@ export default function PortfolioItemsPage() {
             ))}
           </tbody>
         </table>
+      </div>
+      <div className="flex justify-end mt-4">
+        <button onClick={async () => { const r = await saveData(); setSaved(r.success); setTimeout(() => setSaved(false), 2000) }} disabled={saving} className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2">
+          {saving ? <Loader2 className="animate-spin" size={16} /> : null}
+          {saving ? 'Saving...' : saved ? 'Saved!' : 'Save Changes'}
+        </button>
       </div>
     </div>
   )
