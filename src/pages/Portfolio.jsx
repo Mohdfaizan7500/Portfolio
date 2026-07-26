@@ -1,25 +1,27 @@
-// Portfolio.js
 import React, { useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
+import { useData } from '../context/DataContext';
 
-// Import components
 import PortfolioHeader from '../componenets/portfolioCompoents/PortfolioHeader';
 import PortfolioTabs from '../componenets/portfolioCompoents/PortfolioTabs';
 import PortfolioGrid from '../componenets/portfolioCompoents/PortfolioGrid';
 import DemoModal from '../componenets/portfolioCompoents/DemoModal';
 
-// Import data
-import { tabs, portfolioItems } from '../data/portfolioData';
+import { portfolioItems as defaultItems } from '../data/portfolioData';
 
 const Portfolio = () => {
     const { isDarkMode } = useTheme();
+    const { data } = useData();
     const [activeTab, setActiveTab] = useState('All');
     const [selectedDemo, setSelectedDemo] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const items = data.portfolioItems.length > 0 ? data.portfolioItems : defaultItems;
+    const tabs = data.portfolioTabs;
+
     const filteredItems = activeTab === 'All' 
-        ? portfolioItems 
-        : portfolioItems.filter(item => item.category === activeTab);
+        ? items
+        : items.filter(item => item.category === activeTab);
 
     const handleViewProject = (link) => {
         if (link && link !== '#') {
@@ -44,10 +46,8 @@ const Portfolio = () => {
             <div id="work" className="scroll-mt-20"> 
                 <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`} id="portfolio">
                     <div className='container mx-auto px-8 lg:px-40 py-16'>
-                        {/* Header */}
                         <PortfolioHeader isDarkMode={isDarkMode} />
                         
-                        {/* Tabs */}
                         <PortfolioTabs 
                             activeTab={activeTab}
                             setActiveTab={setActiveTab}
@@ -55,7 +55,6 @@ const Portfolio = () => {
                             isDarkMode={isDarkMode}
                         />
 
-                        {/* Portfolio Grid */}
                         <PortfolioGrid 
                             filteredItems={filteredItems}
                             isDarkMode={isDarkMode}
@@ -66,7 +65,6 @@ const Portfolio = () => {
                 </div>
             </div>
 
-            {/* Demo Modal */}
             <DemoModal 
                 isModalOpen={isModalOpen}
                 selectedDemo={selectedDemo}

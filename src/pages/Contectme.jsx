@@ -1,13 +1,23 @@
 import React, { useState, useRef } from 'react'
 import { useTheme } from '../context/ThemeContext'
+import { useData } from '../context/DataContext'
 import { HiOutlineMail } from "react-icons/hi";
 import { BsChatDots } from "react-icons/bs";
 import { FaLinkedinIn, FaWhatsapp } from 'react-icons/fa6';
 import { PlayIcon, Loader2, MailOpen } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 
+const iconMap = {
+  email: <HiOutlineMail className="w-7 h-7 text-inherit" />,
+  whatsapp: <FaWhatsapp className="w-7 h-7 text-inherit" />,
+  linkedin: <FaLinkedinIn className="w-7 h-7 text-inherit" />,
+};
+
 const ContactMe = () => {
     const { isDarkMode } = useTheme();
+    const { data } = useData();
+    const ci = data.contactInfo;
+    const ej = data.emailJS;
     const formRef = useRef();
     const [formData, setFormData] = useState({
         name: '',
@@ -20,45 +30,37 @@ const ContactMe = () => {
 
     const contactDetails = [
         {
-            icon: <HiOutlineMail className={`w-7 h-7 ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`} />,
+            icon: React.cloneElement(iconMap.email, { className: `w-7 h-7 ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}` }),
             platform: "Email",
-            username: "faizanpatha34@gmail.com",
-            action: "Mail me",
-            link: "mailto:faizanpatha34@gmail.com?subject=Hello%20Faizan&body=I%20would%20like%20to%20connect%20with%20you",
+            username: ci.email,
+            action: ci.mailAction,
+            link: ci.emailLink,
             type: "email"
         },
         {
-            icon: <FaWhatsapp className={`w-7 h-7 ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`} />,
+            icon: React.cloneElement(iconMap.whatsapp, { className: `w-7 h-7 ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}` }),
             platform: "WhatsApp",
-            username: "+91 7078254220",
-            action: "Text me",
-            link: "https://wa.me/917078254220?text=Hello%20Faizan,%20I%20would%20like%20to%20connect%20with%20you",
+            username: ci.whatsapp,
+            action: ci.textAction,
+            link: ci.whatsappLink,
             type: "whatsapp"
         },
         {
-            icon: <FaLinkedinIn className={`w-7 h-7 ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`} />,
+            icon: React.cloneElement(iconMap.linkedin, { className: `w-7 h-7 ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}` }),
             platform: "LinkedIn",
-            username: "mohd-faizan-khan-924211244",
-            action: "Write me",
-            link: "https://www.linkedin.com/in/mohd-faizan-khan-924211244/",
+            username: ci.linkedinUsername,
+            action: ci.writeAction,
+            link: ci.linkedinUrl,
             type: "linkedin"
         }
     ];
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        
-        // Map form field names to state property names
         const stateFieldName = name === 'user_name' ? 'name' : 
                                name === 'user_email' ? 'email' : 
                                name === 'message' ? 'message' : name;
-        
-        setFormData(prev => ({
-            ...prev,
-            [stateFieldName]: value
-        }));
-        
-        // Reset success/error states when user starts typing again
+        setFormData(prev => ({ ...prev, [stateFieldName]: value }));
         if (isSuccess || error) {
             setIsSuccess(false);
             setError('');
@@ -71,35 +73,22 @@ const ContactMe = () => {
         setError('');
 
         try {
-            const serviceID = 'service_zfhwpwe';
-            const templateID = 'template_w3nir4i';
-            const publicKey = 'MW7cCi7GZ9Wbyjkxm';
-
             const result = await emailjs.sendForm(
-                serviceID,
-                templateID,
+                ej.serviceId,
+                ej.templateId,
                 formRef.current,
-                publicKey
+                ej.publicKey
             );
 
             if (result.status === 200 || result.text === 'OK') {
                 setIsSuccess(true);
-                setFormData({
-                    name: '',
-                    email: '',
-                    message: ''
-                });
-
-                // Show alert message
+                setFormData({ name: '', email: '', message: '' });
                 alert(`✅ Message sent successfully!\n\nThank you ${formData.name}! Your message has been delivered.\n\nI'll get back to you within 24 hours.`);
-                
-                // Reset success state after alert
                 setIsSuccess(false);
             }
         } catch (err) {
             console.error('Email sending failed:', err);
-            // Show error alert
-            alert(`❌ Failed to send message.\n\nPlease try again later or contact me directly at faizanpatha34@gmail.com`);
+            alert(`❌ Failed to send message.\n\nPlease try again later or contact me directly at ${ci.email}`);
         } finally {
             setIsLoading(false);
         }
@@ -109,20 +98,18 @@ const ContactMe = () => {
         <div id="contact" className="scroll-mt-10">
             <div className={`flex min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
                 <div className='container mx-auto px-4 lg:px-35 md:px-52 py-16'>
-                    {/* Header */}
                     <div className='animate-fadeInBack opacity-0 flex flex-col items-center justify-center mb-12 [animation-delay:200ms] animate-fill-forwards'>
-                        <h6 className={`text-lg ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>Get in touch</h6>
-                        <h2 className='text-2xl font-bold text-indigo-400 mb-8'>Contact Me</h2>
+                        <h6 className={`text-lg ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>{ci.sectionSubtitle}</h6>
+                        <h2 className='text-2xl font-bold text-indigo-400 mb-8'>{ci.sectionTitle}</h2>
                     </div>
 
                     <div className='flex flex-col lg:flex-row gap-12'>
-                        {/* Contact Details - Left Side */}
                         <div className='animate-slideInFromLeft opacity-0 lg:w-1/2 [animation-delay:400ms] animate-fill-forwards'>
                             <div className={`${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
                                 <div className='flex items-center justify-center gap-3 mb-8'>
                                     <BsChatDots className='w-6 h-6 text-indigo-400' />
                                     <h3 className={`text-xl font-bold ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
-                                        Connect with me
+                                        {ci.connectHeading}
                                     </h3>
                                 </div>
 
@@ -143,7 +130,6 @@ const ContactMe = () => {
                                                     <div className='flex justify-center'>
                                                         {detail.icon}
                                                     </div>
-
                                                     <h4 className={`font-semibold mt-3 ${isDarkMode ? 'text-gray-100' : 'text-gray-890'}`}>
                                                         {detail.platform}
                                                     </h4>
@@ -164,15 +150,13 @@ const ContactMe = () => {
                             </div>
                         </div>
 
-                        {/* Contact Form - Right Side */}
                         <div className='animate-slideInFromRight opacity-0 lg:w-1/2 [animation-delay:600ms] animate-fill-forwards'>
                             <div className='flex justify-center mb-8'>
                                 <h3 className={`text-xl font-bold ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
-                                    Send me a message
+                                    {ci.formHeading}
                                 </h3>
                             </div>
 
-                            {/* Simple inline message indicators (optional) */}
                             {isLoading && (
                                 <div className="mb-4 p-3 bg-blue-100 text-blue-700 rounded-lg text-center">
                                     <Loader2 className="w-4 h-4 animate-spin inline mr-2" />
@@ -187,12 +171,11 @@ const ContactMe = () => {
                             )}
 
                             <form ref={formRef} onSubmit={handleSubmit} className='space-y-8'>
-                                {/* Name Input */}
                                 <div className='relative'>
                                     <label
                                         className={`block absolute -top-3 left-4 px-2 text-sm font-medium transition-all duration-200 ${isDarkMode ? 'text-gray-300 bg-gray-900' : 'text-gray-700 bg-white'}`}
                                     >
-                                        Your Name
+                                        {ci.formNameLabel}
                                     </label>
                                     <input
                                         type="text"
@@ -209,12 +192,11 @@ const ContactMe = () => {
                                     />
                                 </div>
 
-                                {/* Email Input */}
                                 <div className='relative'>
                                     <label
                                         className={`block absolute -top-3 left-4 px-2 text-sm font-medium transition-all duration-200 ${isDarkMode ? 'text-gray-300 bg-gray-900' : 'text-gray-700 bg-white'}`}
                                     >
-                                        Your Email
+                                        {ci.formEmailLabel}
                                     </label>
                                     <input
                                         type="email"
@@ -231,12 +213,11 @@ const ContactMe = () => {
                                     />
                                 </div>
 
-                                {/* Message Input */}
                                 <div className='relative'>
                                     <label
                                         className={`block absolute -top-3 left-4 px-2 text-sm font-medium transition-all duration-200 ${isDarkMode ? 'text-gray-300 bg-gray-900' : 'text-gray-700 bg-white'}`}
                                     >
-                                        Your Message
+                                        {ci.formMessageLabel}
                                     </label>
                                     <textarea
                                         name="message"
@@ -253,10 +234,8 @@ const ContactMe = () => {
                                     />
                                 </div>
 
-                                {/* Hidden field for recipient email */}
-                                <input type="hidden" name="to_email" value="mohdfaizankhan7500F@gmail.com" />
+                                <input type="hidden" name="to_email" value={ci.toEmail} />
 
-                                {/* Send Button */}
                                 <button
                                     type="submit"
                                     disabled={isLoading}
@@ -270,14 +249,13 @@ const ContactMe = () => {
                                     ) : (
                                         <>
                                             <MailOpen className="w-5 h-5" />
-                                            Send Message
+                                            {ci.sendButtonLabel}
                                         </>
                                     )}
                                 </button>
 
-                                {/* Privacy Note */}
                                 <p className="text-xs text-center text-gray-500 dark:text-gray-400 mt-4">
-                                    Your information is secure. I'll only use it to respond to your message.
+                                    {ci.privacyNote}
                                 </p>
                             </form>
                         </div>

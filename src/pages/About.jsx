@@ -3,32 +3,26 @@ import { BiAward } from "react-icons/bi";
 import { IoBagAdd } from "react-icons/io5";
 import { BiSupport } from "react-icons/bi";
 import { useTheme } from '../context/ThemeContext';
+import { useData } from '../context/DataContext';
 import profilepic from '../assets/images/profilepic.png'
+
+const iconMap = {
+  award: <BiAward className="w-4 h-4" />,
+  bag: <IoBagAdd className="w-4 h-4" />,
+  support: <BiSupport className="w-4 h-4" />,
+};
 
 const About = () => {
     const { theme, isDarkMode } = useTheme();
+    const { data } = useData();
+    const pi = data.personalInfo;
 
-    // const imgLink = require('../assets/images/profilepic.png');
+    const details = data.aboutStats.map(stat => ({
+      ...stat,
+      icon: iconMap[stat.icon] || <BiAward className="w-4 h-4" />
+    }));
 
-    const details = [
-        {
-            title: "Experience",
-            des: "1+ Years Working",
-            icon: <BiAward className="w-4 h-4" />
-        },
-        {
-            title: "Projects",
-            des: "4+ Completed",
-            icon: <IoBagAdd className="w-4 h-4" />
-        },
-        {
-            title: "Clients",
-            des: "2+ Happy Clients",
-            icon: <BiSupport className="w-4 h-4" />
-        }
-    ];
-    // Function to scroll to about section
-     const handleContactMeClick = () => {
+    const handleContactMeClick = () => {
         const contactSection = document.getElementById('contact');
         if (contactSection) {
             contactSection.scrollIntoView({ 
@@ -43,15 +37,12 @@ const About = () => {
        <div id="about" className="scroll-mt-20"> 
             <div className={`flex ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
                 <div className='container mx-auto lg:px-30 flex flex-col py-10 justify-center items-center rounded-2xl'>
-                    {/* Header */}
                     <div className='animate-fadeInBack opacity-0 flex flex-col items-center justify-center [animation-delay:200ms] animate-fill-forwards'>
-                        <h6 className={`text-lg ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>My Intro</h6>
-                        <h2 className='text-2xl font-bold text-indigo-400 mb-8'>About Me</h2>
+                        <h6 className={`text-lg ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>{pi.aboutSectionTitle}</h6>
+                        <h2 className='text-2xl font-bold text-indigo-400 mb-8'>{pi.aboutSectionHeading}</h2>
                     </div>
 
-                    {/* Content */}
                     <div className='flex flex-col md:flex-row items-center gap-10 px-8 pt-13'>
-                        {/* Image with fade animation - appears first */}
                         <div className='animate-fadeInBack opacity-0 [animation-delay:400ms] animate-fill-forwards'>
                             <div className={`w-80 md:w-100 lg:w-100 h-80 md:h-100 lg:h-100 ${isDarkMode ? 'bg-gray-900 ' : 'bg-white '}rounded-3xl flex items-center justify-center`}>
                                 <img
@@ -62,7 +53,6 @@ const About = () => {
                             </div>
                         </div>
 
-                        {/* Details Grid with fade animation - appears second */}
                         <div className='justify-between flex flex-col h-full py-5'>
                             <div className='animate-fadeInBack opacity-0 [animation-delay:600ms] animate-fill-forwards'>
                                 <div className='grid grid-cols-3 md:grid-cols-3 gap-2'>
@@ -83,22 +73,20 @@ const About = () => {
                                 </div>
                             </div>
 
-                            {/* Description with fade animation - appears third */}
                             <div className='animate-fadeInBack opacity-0 [animation-delay:800ms] animate-fill-forwards'>
                                 <div className='mt-10 px-6 text-center max-w-2xl text-sm'>
                                     <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                                        Hello, I'm Faizan. As a React Native Developer, I specialize in developing high-performance mobile applications using JavaScript and React Native. My skill set includes creating responsive UIs, integrating RESTful APIs, implementing native modules, and optimizing app performance. I thrive on solving complex problems and delivering robust mobile solutions.
+                                        {pi.bio}
                                     </p>
                                 </div>
                             </div>
 
-                            {/* Button with fade animation - appears last */}
                             <div className='animate-fadeInBack opacity-0 [animation-delay:1000ms] animate-fill-forwards'>
                                 <div className='px-5 justify-center flex py-8'>
                                     <button 
                                     onClick={handleContactMeClick}
                                     className='bg-indigo-400 px-5 py-2 rounded-md text-white text-lg font-bold hover:bg-indigo-500 transition-colors duration-300'>
-                                        Contact me
+                                        {pi.contactButtonLabel}
                                     </button>
                                 </div>
                             </div>

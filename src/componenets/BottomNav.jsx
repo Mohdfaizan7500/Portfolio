@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { Home, User, Briefcase, Mail, FileText } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
+import { useData } from '../context/DataContext'
+
+const iconMap = {
+  Home,
+  User,
+  Briefcase,
+  Mail,
+  FileText,
+};
 
 const BottomNav = () => {
     const { isDarkMode } = useTheme()
+    const { data } = useData()
     const [activeTab, setActiveTab] = useState('home')
 
-    const navItems = [
-        { id: 1, icon: Home, label: 'Home', href: '#home', key: 'home' },
-        { id: 2, icon: User, label: 'About', href: '#about', key: 'about' },
-        { id: 4, icon: FileText, label: 'Skills', href: '#skills', key: 'skills' },
-        { id: 3, icon: Briefcase, label: 'Work', href: '#work', key: 'work' },
-        { id: 5, icon: Mail, label: 'Contact', href: '#contact', key: 'contact' }
-    ]
+    const navItems = data.bottomNav;
 
     useEffect(() => {
         const handleScroll = () => {
@@ -43,9 +47,7 @@ const BottomNav = () => {
 
     return (
         <>
-            {/* Bottom Navigation - Fixed overlay, doesn't affect layout */}
-            <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2  w-[380px]">
-                {/* Container */}
+            <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 w-[380px]">
                 <div className={`rounded-full px-6 py-4 backdrop-blur-3xl shadow-lg ${
                     isDarkMode 
                         ? 'bg-gray-900/10 border border-gray-700/30' 
@@ -53,7 +55,7 @@ const BottomNav = () => {
                 }`}>
                     <div className="flex justify-between items-center">
                         {navItems.map((item) => {
-                            const Icon = item.icon
+                            const Icon = iconMap[item.icon] || Home
                             const isActive = activeTab === item.key
 
                             return (
@@ -63,14 +65,12 @@ const BottomNav = () => {
                                     className="relative p-2 group focus:outline-none"
                                     aria-label={item.label}
                                 >
-                                    {/* Gradient background with smooth transition */}
                                     <div className={`absolute inset-0 rounded-full transition-all duration-300 ease-out ${
                                         isActive 
                                             ? 'bg-gradient-to-b from-indigo-500/80 via-indigo-300/80 to-indigo-100/80 blur-[1px] scale-100' 
                                             : 'scale-0'
                                     }`}></div>
                                     
-                                    {/* Icon with smooth transition */}
                                     <div className="relative z-10">
                                         <Icon className={`w-6 h-6 transition-all duration-300 ease-out ${
                                             isActive 
@@ -81,7 +81,6 @@ const BottomNav = () => {
                                         }`} />
                                     </div>
                                     
-                                    {/* Tooltip for better UX */}
                                     <div className={`absolute -top-10 left-1/2 transform -translate-x-1/2 px-2 py-1 rounded-md text-xs font-medium whitespace-nowrap transition-all duration-200 opacity-0 group-hover:opacity-100 pointer-events-none ${
                                         isDarkMode 
                                             ? 'bg-gray-800 text-gray-200' 
@@ -95,8 +94,6 @@ const BottomNav = () => {
                     </div>
                 </div>
             </div>
-            
-            {/* REMOVED: Don't add extra spacing here */}
         </>
     )
 }

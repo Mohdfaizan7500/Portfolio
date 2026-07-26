@@ -1,33 +1,25 @@
 import React, { useState, useEffect } from 'react'
-import { Sun, Moon } from 'lucide-react';
 import { ThemeToggle } from './ThemeButton';
 import { useTheme } from '../context/ThemeContext';
+import { useData } from '../context/DataContext';
 
 const HeaderSection = () => {
     const { theme, isDarkMode } = useTheme();
+    const { data } = useData();
     const [hasShadow, setHasShadow] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
-            // Check if scroll position is more than 3 pixels
             if (window.scrollY > 3) {
                 setHasShadow(true);
             } else {
                 setHasShadow(false);
             }
         };
-
-        // Add scroll event listener
         window.addEventListener('scroll', handleScroll);
-        
-        // Check initial scroll position
         handleScroll();
-
-        // Clean up
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
-
-    console.log("theme:", theme, "is dark mode :", isDarkMode);
 
     return (
         <div className={`
@@ -47,13 +39,11 @@ const HeaderSection = () => {
                   )
                 : 'shadow-none'
             }
-            
         `}>
             <div className='container mx-auto flex justify-between'>
                 <div className="text-lg lg:text-2xl font-semibold text-indigo-400">
-                    Mohd Faizan Khan
+                    {data.personalInfo.name}
                 </div>
-
                 <ThemeToggle />
             </div>
         </div>
